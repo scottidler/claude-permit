@@ -1,5 +1,23 @@
-# claude-permit.yml - Sample configuration file
-# YAML keys use kebab-case; serde translates to snake_case in Rust.
-name: John Doe
-age: 30
-debug: false
+# claude-permit configuration
+# Place at ~/.config/claude-permit/claude-permit.yml or ./claude-permit.yml
+
+# Min observations to trigger a promotion suggestion
+suggest-threshold: 3
+
+# Min distinct sessions for a suggestion
+suggest-sessions: 2
+
+# Days after which events are eligible for cleanup
+clean-older-than: 90
+
+# Whether the log command should actively deny permanently-blocked patterns
+enforce-deny: true
+
+# Additional deny patterns beyond the built-in list
+# extra-deny-patterns:
+#   - "shutdown"
+#   - "reboot"
+
+# Risk tier overrides (pattern -> tier)
+# risk-overrides:
+#   "cargo build": "safe"

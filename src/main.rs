@@ -9,6 +9,7 @@ use std::path::PathBuf;
 mod cli;
 
 use claude_permit::cmd;
+use claude_permit::config::Config;
 use claude_permit::db::EventStore;
 use cli::{Cli, Command};
 
@@ -76,11 +77,11 @@ fn run() -> Result<()> {
 
     match cli.command {
         Command::Log => {
+            let config = Config::load(None).unwrap_or_default();
             let db_path = EventStore::default_path()?;
             let store = EventStore::open(&db_path)?;
-            cmd::run_log(&store)?;
-            // Always output valid JSON for the hook pipeline
-            println!("{{}}");
+            let result = cmd::run_log(&store, config.enforce_deny, &config.extra_deny_patterns)?;
+            print!("{}", result.to_json());
         }
         Command::Check => {
             let db_path = EventStore::default_path()?;
