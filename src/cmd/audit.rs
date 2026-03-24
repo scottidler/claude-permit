@@ -73,8 +73,9 @@ pub fn format_table(entries: &[AuditEntry]) -> String {
 
     // Rows
     for entry in entries {
-        let rule_display = if entry.rule.len() > rule_width {
-            format!("{}...", &entry.rule[..rule_width - 3])
+        let rule_display = if entry.rule.chars().count() > rule_width {
+            let truncated: String = entry.rule.chars().take(rule_width - 3).collect();
+            format!("{truncated}...")
         } else {
             entry.rule.clone()
         };
